@@ -1,6 +1,58 @@
 {
 	"name": "BuildSanctionDomains",
 	"properties": {
+		"description": "Runs DownloadAndProcessSanctions, then normalizes sanction domains and writes them to Cosmos DB.",
+		"activities": [
+			{
+				"name": "RunDownloadAndProcessSanctions",
+				"type": "ExecutePipeline",
+				"dependsOn": [],
+				"policy": {
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "DownloadAndProcessSanctions",
+						"type": "PipelineReference"
+					}
+				}
+			},
+			{
+				"name": "CopyNormalizedDomainsToCosmos",
+				"type": "Copy",
+				"dependsOn": [
+					{
+						"activity": "RunDownloadAndProcessSanctions",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureFunctionSource",
+						"functionName": "NormalizeSanctionDomains",
+						"httpMethod": "POST",
+						"functionAppSettingsReference": {
+							"referenceName": "ls_AzureFunction_NormalizeSanctionDomains",
+							"type": "LinkedServiceReference"
+						},
+						"requestBody": "@{activity('RunDownloadAndProcessSanctions').output}"
+					},
+					"enableStaging": false
+				}
+			}
+		],
 		"annotations": []
-	}
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
 }

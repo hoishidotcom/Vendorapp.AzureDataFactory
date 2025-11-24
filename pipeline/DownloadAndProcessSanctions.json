@@ -72,7 +72,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"dataflow": {
-						"referenceName": "NarrowSanctionsList",
+						"referenceName": "NarrowSanctionsKeepDomainColumns",
 						"type": "DataFlowReference"
 					},
 					"compute": {

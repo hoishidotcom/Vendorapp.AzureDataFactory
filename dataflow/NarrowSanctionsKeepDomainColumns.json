@@ -27,10 +27,6 @@
 					"description": "Only returns rows where 'schema' is Organizations, Company, LegalEntity or PublicBody"
 				},
 				{
-					"name": "SelectRelevantColumnsOnly",
-					"description": "Select columns 'caption, datasets, id, schema'"
-				},
-				{
 					"name": "FlattenSanctionDatasetAndCountryColumn",
 					"description": "Changes datasets from an array into a column"
 				},
@@ -62,17 +58,8 @@
 				"  schema == 'LegalEntity' ||",
 				"  schema == 'PublicBody'",
 				")) ~> FilterEntityTypes",
-				"GetSourceJSON select(mapColumn(",
-				"          caption,",
-				"          datasets,",
-				"          id,",
-				"          schema,",
-				"          country = properties.country",
-				"     ),",
-				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> SelectRelevantColumnsOnly",
-				"SelectRelevantColumnsOnly derive(datasets = replace(   replace(     replace(toString(datasets), '\",\"', ','),     '[\"', ''   ),   '\"]', '' ),",
-				"          country = replace(replace(replace(toString(country), '\",\"', ','), '[\"', ''   ), '\"]', '' )) ~> FlattenSanctionDatasetAndCountryColumn",
+				"GetSourceJSON derive(datasets = replace(   replace(     replace(toString(datasets), '\",\"', ','),     '[\"', ''   ),   '\"]', '' ),",
+				"          country = replace(replace(replace(toString({properties.country}), '\",\"', ','), '[\"', ''   ), '\"]', '' )) ~> FlattenSanctionDatasetAndCountryColumn",
 				"FilterEntityTypes filter(instr(datasets, 'us_ofac_sdn') > 0",
 				"|| instr(datasets, 'us_ofac_cons') > 0",
 				"|| instr(datasets, 'gb_hmt_sanctions') > 0",

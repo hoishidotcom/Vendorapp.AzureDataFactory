@@ -15,7 +15,7 @@
 			"sinks": [
 				{
 					"dataset": {
-						"referenceName": "ds_TransformedJSON",
+						"referenceName": "ds_TransformedJSON_with_domains",
 						"type": "DatasetReference"
 					},
 					"name": "SinkAzureBlob"

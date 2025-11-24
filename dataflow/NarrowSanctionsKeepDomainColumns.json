@@ -14,10 +14,31 @@
 			],
 			"sinks": [
 				{
+					"dataset": {
+						"referenceName": "ds_TransformedJSON",
+						"type": "DatasetReference"
+					},
 					"name": "SinkAzureBlob"
 				}
 			],
-			"transformations": [],
+			"transformations": [
+				{
+					"name": "FilterEntityTypes",
+					"description": "Only returns rows where 'schema' is Organizations, Company, LegalEntity or PublicBody"
+				},
+				{
+					"name": "SelectRelevantColumnsOnly",
+					"description": "Select columns 'caption, datasets, id, schema'"
+				},
+				{
+					"name": "FlattenSanctionDatasetAndCountryColumn",
+					"description": "Changes datasets from an array into a column"
+				},
+				{
+					"name": "FilterSanctionSources",
+					"description": "Only returns rows where 'datasets' is us_, eu_, gb_, or au_."
+				}
+			],
 			"scriptLines": [
 				"source(output(",
 				"          id as string,",
@@ -35,10 +56,38 @@
 				"     validateSchema: false,",
 				"     ignoreNoFilesFound: false,",
 				"     documentForm: 'documentPerLine') ~> GetSourceJSON",
-				" sink(allowSchemaDrift: true,",
-				"     validateSchema: false,",
+				"FlattenSanctionDatasetAndCountryColumn filter((",
+				"  schema == 'Organization' ||",
+				"  schema == 'Company' ||",
+				"  schema == 'LegalEntity' ||",
+				"  schema == 'PublicBody'",
+				")) ~> FilterEntityTypes",
+				"GetSourceJSON select(mapColumn(",
+				"          caption,",
+				"          datasets,",
+				"          id,",
+				"          schema,",
+				"          country = properties.country",
+				"     ),",
 				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> SinkAzureBlob"
+				"     skipDuplicateMapOutputs: true) ~> SelectRelevantColumnsOnly",
+				"SelectRelevantColumnsOnly derive(datasets = replace(   replace(     replace(toString(datasets), '\",\"', ','),     '[\"', ''   ),   '\"]', '' ),",
+				"          country = replace(replace(replace(toString(country), '\",\"', ','), '[\"', ''   ), '\"]', '' )) ~> FlattenSanctionDatasetAndCountryColumn",
+				"FilterEntityTypes filter(instr(datasets, 'us_ofac_sdn') > 0",
+				"|| instr(datasets, 'us_ofac_cons') > 0",
+				"|| instr(datasets, 'gb_hmt_sanctions') > 0",
+				"|| instr(datasets, 'gb_fcdo_sanctions') > 0",
+				"|| instr(datasets, 'eu_fsf') > 0",
+				"|| instr(datasets, 'eu_journal_sanctions') > 0",
+				"|| instr(datasets, 'au_dfat_sanctions') > 0",
+				"|| instr(datasets, 'un_sc_sanctions') > 0) ~> FilterSanctionSources",
+				"FilterSanctionSources sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     partitionFileNames:['targets.transformed.json'],",
+				"     truncate: true,",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     partitionBy('hash', 1)) ~> SinkAzureBlob"
 			]
 		}
 	}

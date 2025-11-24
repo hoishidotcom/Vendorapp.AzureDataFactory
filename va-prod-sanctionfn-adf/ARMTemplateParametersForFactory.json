@@ -1,0 +1,21 @@
+{
+	"$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"value": "va-prod-sanctionfn-adf"
+		},
+		"AzureAISearch_key": {
+			"value": ""
+		},
+		"AzureAISearch_properties_typeProperties_url": {
+			"value": "https://va-prod-sanctionfn-srch.search.windows.net"
+		},
+		"AzureBlobStorage_properties_typeProperties_serviceEndpoint": {
+			"value": "https://vaprodsanctionfnst.blob.core.windows.net/"
+		},
+		"OpenSanctionsJSON_properties_typeProperties_url": {
+			"value": "https://data.opensanctions.org/"
+		}
+	}
+}

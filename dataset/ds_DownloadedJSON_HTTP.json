@@ -1,0 +1,22 @@
+{
+	"name": "ds_DownloadedJSON_HTTP",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "OpenSanctionsJSON",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Json",
+		"typeProperties": {
+			"location": {
+				"type": "HttpServerLocation",
+				"relativeUrl": {
+					"value": "@concat('datasets/', formatDateTime(utcNow(), 'yyyyMMdd'), '/sanctions/entities.ftm.json')",
+					"type": "Expression"
+				}
+			}
+		},
+		"schema": {}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

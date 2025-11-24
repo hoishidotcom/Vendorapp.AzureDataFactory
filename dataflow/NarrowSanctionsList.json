@@ -1,0 +1,94 @@
+{
+	"name": "NarrowSanctionsList",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "ds_DownloadedJSON_Blob",
+						"type": "DatasetReference"
+					},
+					"name": "GetSourceJSON"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "ds_TransformedJSON",
+						"type": "DatasetReference"
+					},
+					"name": "SinkAzureBlob"
+				}
+			],
+			"transformations": [
+				{
+					"name": "FilterEntityTypes",
+					"description": "Only returns rows where 'schema' is Organizations, Company, LegalEntity or PublicBody"
+				},
+				{
+					"name": "SelectRelevantColumnsOnly",
+					"description": "Select columns 'caption, datasets, id, schema'"
+				},
+				{
+					"name": "FlattenSanctionDatasetAndCountryColumn",
+					"description": "Changes datasets from an array into a column"
+				},
+				{
+					"name": "FilterSanctionSources",
+					"description": "Only returns rows where 'datasets' is us_, eu_, gb_, or au_."
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          id as string,",
+				"          caption as string,",
+				"          schema as string,",
+				"          properties as (name as string[], topics as string[], ogrnCode as string[], jurisdiction as string[], alias as string[], innCode as string[], programId as string[], address as string[], sanctions as (id as string, caption as string, schema as string, properties as (programUrl as string[], provisions as string[], startDate as string[], sourceUrl as string[], program as string[], programId as string[], authority as string[], country as string[], duration as string[], authorityId as string[], status as string[], endDate as string[], entity as string[]), referents as string[], datasets as string[], first_seen as string, last_seen as string, last_change as string, target as boolean)[], registrationNumber as string[], notes as string[], modifiedAt as string[], taxNumber as string[], phone as string[], email as string[], addressEntity as (id as string, caption as string, schema as string, properties as (full as string[], country as string[], street as string[], postalCode as string[], city as string[], region as string[]), referents as string[], datasets as string[], first_seen as string, last_seen as string, last_change as string, target as boolean)[], country as string[], website as string[], idNumber as string[], sourceUrl as string[], identification as (id as string, caption as string, schema as string, properties as (type as string[], summary as string[], holder as string[], number as string[], country as string[]), referents as string[], datasets as string[], first_seen as string, last_seen as string, last_change as string, target as boolean)[], gender as string[], lastName as string[], birthDate as string[], nationality as string[], firstName as string[], citizenship as string[], birthPlace as string[], sector as string[], incorporationDate as string[], weakAlias as string[], ownershipAsset as (id as string, caption as string, schema as string, properties as (role as string[], owner as (id as string, caption as string, schema as string, properties as (middleName as string[], birthDate as string[], passportNumber as string[], lastName as string[], name as string[], topics as string[], addressEntity as string[], gender as string[], country as string[], weakAlias as string[], address as string[], nationality as string[], birthPlace as string[], sourceUrl as string[]), referents as string[], datasets as string[], first_seen as string, last_seen as string, last_change as string, target as boolean)[], asset as string[]), referents as string[], datasets as string[], first_seen as string, last_seen as string, last_change as string, target as boolean)[]),",
+				"          referents as string[],",
+				"          datasets as string[],",
+				"          first_seen as string,",
+				"          last_seen as string,",
+				"          last_change as string,",
+				"          target as boolean",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false,",
+				"     documentForm: 'documentPerLine') ~> GetSourceJSON",
+				"FlattenSanctionDatasetAndCountryColumn filter((",
+				"  schema == 'Organization' ||",
+				"  schema == 'Company' ||",
+				"  schema == 'LegalEntity' ||",
+				"  schema == 'PublicBody'",
+				")) ~> FilterEntityTypes",
+				"GetSourceJSON select(mapColumn(",
+				"          caption,",
+				"          datasets,",
+				"          id,",
+				"          schema,",
+				"          country = properties.country",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> SelectRelevantColumnsOnly",
+				"SelectRelevantColumnsOnly derive(datasets = replace(   replace(     replace(toString(datasets), '\",\"', ','),     '[\"', ''   ),   '\"]', '' ),",
+				"          country = replace(replace(replace(toString(country), '\",\"', ','), '[\"', ''   ), '\"]', '' )) ~> FlattenSanctionDatasetAndCountryColumn",
+				"FilterEntityTypes filter(instr(datasets, 'us_ofac_sdn') > 0",
+				"|| instr(datasets, 'us_ofac_cons') > 0",
+				"|| instr(datasets, 'gb_hmt_sanctions') > 0",
+				"|| instr(datasets, 'gb_fcdo_sanctions') > 0",
+				"|| instr(datasets, 'eu_fsf') > 0",
+				"|| instr(datasets, 'eu_journal_sanctions') > 0",
+				"|| instr(datasets, 'au_dfat_sanctions') > 0",
+				"|| instr(datasets, 'un_sc_sanctions') > 0) ~> FilterSanctionSources",
+				"FilterSanctionSources sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     partitionFileNames:['targets.transformed.json'],",
+				"     truncate: true,",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     partitionBy('hash', 1)) ~> SinkAzureBlob"
+			]
+		}
+	}
+}

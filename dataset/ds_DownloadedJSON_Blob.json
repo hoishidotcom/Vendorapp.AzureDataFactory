@@ -1,0 +1,689 @@
+{
+	"name": "ds_DownloadedJSON_Blob",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureBlobStorage",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Json",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "targets.nested.json",
+				"folderPath": "input",
+				"container": "scratch"
+			}
+		},
+		"schema": {
+			"type": "object",
+			"properties": {
+				"id": {
+					"type": "string"
+				},
+				"caption": {
+					"type": "string"
+				},
+				"schema": {
+					"type": "string"
+				},
+				"properties": {
+					"type": "object",
+					"properties": {
+						"name": {
+							"type": "array",
+							"items": {
+								"type": "string"
+							}
+						},
+						"topics": {
+							"type": "array",
+							"items": {
+								"type": "string"
+							}
+						},
+						"ogrnCode": {
+							"type": "array",
+							"items": {
+								"type": "string"
+							}
+						},
+						"jurisdiction": {
+							"type": "array",
+							"items": {
+								"type": "string"
+							}
+						},
+						"alias": {
+							"type": "array",
+							"items": {
+								"type": "string"
+							}
+						},
+						"innCode": {
+							"type": "array",
+							"items": {
+								"type": "string"
+							}
+						},
+						"programId": {
+							"type": "array",
+							"items": {
+								"type": "string"
+							}
+						},
+						"address": {
+							"type": "array",
+							"items": {
+								"type": "string"
+							}
+						},
+						"sanctions": {
+							"type": "array",
+							"items": {
+								"type": "object",
+								"properties": {
+									"id": {
+										"type": "string"
+									},
+									"caption": {
+										"type": "string"
+									},
+									"schema": {
+										"type": "string"
+									},
+									"properties": {
+										"type": "object",
+										"properties": {
+											"programUrl": {
+												"type": "array",
+												"items": {
+													"type": "string"
+												}
+											},
+											"provisions": {
+												"type": "array",
+												"items": {
+													"type": "string"
+												}
+											},
+											"startDate": {
+												"type": "array",
+												"items": {
+													"type": "string"
+												}
+											},
+											"sourceUrl": {
+												"type": "array",
+												"items": {
+													"type": "string"
+												}
+											},
+											"program": {
+												"type": "array",
+												"items": {
+													"type": "string"
+												}
+											},
+											"programId": {
+												"type": "array",
+												"items": {
+													"type": "string"
+												}
+											},
+											"authority": {
+												"type": "array",
+												"items": {
+													"type": "string"
+												}
+											},
+											"country": {
+												"type": "array",
+												"items": {
+													"type": "string"
+												}
+											},
+											"duration": {
+												"type": "array",
+												"items": {
+													"type": "string"
+												}
+											},
+											"authorityId": {
+												"type": "array",
+												"items": {
+													"type": "string"
+												}
+											},
+											"status": {
+												"type": "array",
+												"items": {
+													"type": "string"
+												}
+											},
+											"endDate": {
+												"type": "array",
+												"items": {
+													"type": "string"
+												}
+											},
+											"entity": {
+												"type": "array",
+												"items": {
+													"type": "string"
+												}
+											}
+										}
+									},
+									"referents": {
+										"type": "array"
+									},
+									"datasets": {
+										"type": "array",
+										"items": {
+											"type": "string"
+										}
+									},
+									"first_seen": {
+										"type": "string"
+									},
+									"last_seen": {
+										"type": "string"
+									},
+									"last_change": {
+										"type": "string"
+									},
+									"target": {
+										"type": "boolean"
+									}
+								}
+							}
+						},
+						"registrationNumber": {
+							"type": "array",
+							"items": {
+								"type": "string"
+							}
+						},
+						"notes": {
+							"type": "array",
+							"items": {
+								"type": "string"
+							}
+						},
+						"modifiedAt": {
+							"type": "array",
+							"items": {
+								"type": "string"
+							}
+						},
+						"taxNumber": {
+							"type": "array",
+							"items": {
+								"type": "string"
+							}
+						},
+						"phone": {
+							"type": "array",
+							"items": {
+								"type": "string"
+							}
+						},
+						"email": {
+							"type": "array",
+							"items": {
+								"type": "string"
+							}
+						},
+						"addressEntity": {
+							"type": "array",
+							"items": {
+								"type": "object",
+								"properties": {
+									"id": {
+										"type": "string"
+									},
+									"caption": {
+										"type": "string"
+									},
+									"schema": {
+										"type": "string"
+									},
+									"properties": {
+										"type": "object",
+										"properties": {
+											"full": {
+												"type": "array",
+												"items": {
+													"type": "string"
+												}
+											},
+											"country": {
+												"type": "array",
+												"items": {
+													"type": "string"
+												}
+											},
+											"street": {
+												"type": "array",
+												"items": {
+													"type": "string"
+												}
+											},
+											"postalCode": {
+												"type": "array",
+												"items": {
+													"type": "string"
+												}
+											},
+											"city": {
+												"type": "array",
+												"items": {
+													"type": "string"
+												}
+											},
+											"region": {
+												"type": "array",
+												"items": {
+													"type": "string"
+												}
+											}
+										}
+									},
+									"referents": {
+										"type": "array"
+									},
+									"datasets": {
+										"type": "array",
+										"items": {
+											"type": "string"
+										}
+									},
+									"first_seen": {
+										"type": "string"
+									},
+									"last_seen": {
+										"type": "string"
+									},
+									"last_change": {
+										"type": "string"
+									},
+									"target": {
+										"type": "boolean"
+									}
+								}
+							}
+						},
+						"country": {
+							"type": "array",
+							"items": {
+								"type": "string"
+							}
+						},
+						"website": {
+							"type": "array",
+							"items": {
+								"type": "string"
+							}
+						},
+						"idNumber": {
+							"type": "array",
+							"items": {
+								"type": "string"
+							}
+						},
+						"sourceUrl": {
+							"type": "array",
+							"items": {
+								"type": "string"
+							}
+						},
+						"identification": {
+							"type": "array",
+							"items": {
+								"type": "object",
+								"properties": {
+									"id": {
+										"type": "string"
+									},
+									"caption": {
+										"type": "string"
+									},
+									"schema": {
+										"type": "string"
+									},
+									"properties": {
+										"type": "object",
+										"properties": {
+											"type": {
+												"type": "array",
+												"items": {
+													"type": "string"
+												}
+											},
+											"summary": {
+												"type": "array",
+												"items": {
+													"type": "string"
+												}
+											},
+											"holder": {
+												"type": "array",
+												"items": {
+													"type": "string"
+												}
+											},
+											"number": {
+												"type": "array",
+												"items": {
+													"type": "string"
+												}
+											},
+											"country": {
+												"type": "array",
+												"items": {
+													"type": "string"
+												}
+											}
+										}
+									},
+									"referents": {
+										"type": "array"
+									},
+									"datasets": {
+										"type": "array",
+										"items": {
+											"type": "string"
+										}
+									},
+									"first_seen": {
+										"type": "string"
+									},
+									"last_seen": {
+										"type": "string"
+									},
+									"last_change": {
+										"type": "string"
+									},
+									"target": {
+										"type": "boolean"
+									}
+								}
+							}
+						},
+						"gender": {
+							"type": "array",
+							"items": {
+								"type": "string"
+							}
+						},
+						"lastName": {
+							"type": "array",
+							"items": {
+								"type": "string"
+							}
+						},
+						"birthDate": {
+							"type": "array",
+							"items": {
+								"type": "string"
+							}
+						},
+						"nationality": {
+							"type": "array",
+							"items": {
+								"type": "string"
+							}
+						},
+						"firstName": {
+							"type": "array",
+							"items": {
+								"type": "string"
+							}
+						},
+						"citizenship": {
+							"type": "array",
+							"items": {
+								"type": "string"
+							}
+						},
+						"birthPlace": {
+							"type": "array",
+							"items": {
+								"type": "string"
+							}
+						},
+						"sector": {
+							"type": "array",
+							"items": {
+								"type": "string"
+							}
+						},
+						"incorporationDate": {
+							"type": "array",
+							"items": {
+								"type": "string"
+							}
+						},
+						"weakAlias": {
+							"type": "array",
+							"items": {
+								"type": "string"
+							}
+						},
+						"ownershipAsset": {
+							"type": "array",
+							"items": {
+								"type": "object",
+								"properties": {
+									"id": {
+										"type": "string"
+									},
+									"caption": {
+										"type": "string"
+									},
+									"schema": {
+										"type": "string"
+									},
+									"properties": {
+										"type": "object",
+										"properties": {
+											"role": {
+												"type": "array",
+												"items": {
+													"type": "string"
+												}
+											},
+											"owner": {
+												"type": "array",
+												"items": {
+													"type": "object",
+													"properties": {
+														"id": {
+															"type": "string"
+														},
+														"caption": {
+															"type": "string"
+														},
+														"schema": {
+															"type": "string"
+														},
+														"properties": {
+															"type": "object",
+															"properties": {
+																"middleName": {
+																	"type": "array",
+																	"items": {
+																		"type": "string"
+																	}
+																},
+																"birthDate": {
+																	"type": "array",
+																	"items": {
+																		"type": "string"
+																	}
+																},
+																"passportNumber": {
+																	"type": "array",
+																	"items": {
+																		"type": "string"
+																	}
+																},
+																"lastName": {
+																	"type": "array",
+																	"items": {
+																		"type": "string"
+																	}
+																},
+																"name": {
+																	"type": "array",
+																	"items": {
+																		"type": "string"
+																	}
+																},
+																"topics": {
+																	"type": "array",
+																	"items": {
+																		"type": "string"
+																	}
+																},
+																"addressEntity": {
+																	"type": "array",
+																	"items": {
+																		"type": "string"
+																	}
+																},
+																"gender": {
+																	"type": "array",
+																	"items": {
+																		"type": "string"
+																	}
+																},
+																"country": {
+																	"type": "array",
+																	"items": {
+																		"type": "string"
+																	}
+																},
+																"weakAlias": {
+																	"type": "array",
+																	"items": {
+																		"type": "string"
+																	}
+																},
+																"address": {
+																	"type": "array",
+																	"items": {
+																		"type": "string"
+																	}
+																},
+																"nationality": {
+																	"type": "array",
+																	"items": {
+																		"type": "string"
+																	}
+																},
+																"birthPlace": {
+																	"type": "array",
+																	"items": {
+																		"type": "string"
+																	}
+																},
+																"sourceUrl": {
+																	"type": "array",
+																	"items": {
+																		"type": "string"
+																	}
+																}
+															}
+														},
+														"referents": {
+															"type": "array",
+															"items": {
+																"type": "string"
+															}
+														},
+														"datasets": {
+															"type": "array",
+															"items": {
+																"type": "string"
+															}
+														},
+														"first_seen": {
+															"type": "string"
+														},
+														"last_seen": {
+															"type": "string"
+														},
+														"last_change": {
+															"type": "string"
+														},
+														"target": {
+															"type": "boolean"
+														}
+													}
+												}
+											},
+											"asset": {
+												"type": "array",
+												"items": {
+													"type": "string"
+												}
+											}
+										}
+									},
+									"referents": {
+										"type": "array"
+									},
+									"datasets": {
+										"type": "array",
+										"items": {
+											"type": "string"
+										}
+									},
+									"first_seen": {
+										"type": "string"
+									},
+									"last_seen": {
+										"type": "string"
+									},
+									"last_change": {
+										"type": "string"
+									},
+									"target": {
+										"type": "boolean"
+									}
+								}
+							}
+						}
+					}
+				},
+				"referents": {
+					"type": "array",
+					"items": {
+						"type": "string"
+					}
+				},
+				"datasets": {
+					"type": "array",
+					"items": {
+						"type": "string"
+					}
+				},
+				"first_seen": {
+					"type": "string"
+				},
+				"last_seen": {
+					"type": "string"
+				},
+				"last_change": {
+					"type": "string"
+				},
+				"target": {
+					"type": "boolean"
+				}
+			}
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

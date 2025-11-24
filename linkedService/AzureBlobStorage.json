@@ -1,0 +1,13 @@
+{
+	"name": "AzureBlobStorage",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"description": "Output for transformed OpenSanctions CSV",
+		"annotations": [],
+		"type": "AzureBlobStorage",
+		"typeProperties": {
+			"serviceEndpoint": "https://vaprodsanctionfnst.blob.core.windows.net/",
+			"accountKind": "StorageV2"
+		}
+	}
+}

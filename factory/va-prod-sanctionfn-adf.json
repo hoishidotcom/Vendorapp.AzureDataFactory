@@ -1,0 +1,9 @@
+{
+	"name": "va-prod-sanctionfn-adf",
+	"location": "eastus",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "46ba19f7-04aa-4130-8b19-bafe4c416744",
+		"tenantId": "4aaf5ca5-3a5a-4309-9d27-e97657ce6a17"
+	}
+}

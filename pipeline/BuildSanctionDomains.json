@@ -86,6 +86,8 @@
 				"name": "NormalizeDomainsAndWriteToCosmos",
 				"description": "Calls Azure Function NormalizeSanctionDomains to extract/normalize domains and upsert into Cosmos DB.",
 				"type": "AzureFunctionActivity",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "ProcessData",

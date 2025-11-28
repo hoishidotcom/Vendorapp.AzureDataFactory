@@ -52,7 +52,7 @@
 			},
 			{
 				"name": "ProcessData",
-				"description": "Runs the NarrowSanctionsList data flow",
+				"description": "Runs the NarrowSanctionsKeepDomainColumns data flow",
 				"type": "ExecuteDataFlow",
 				"dependsOn": [
 					{

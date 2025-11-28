@@ -30,12 +30,36 @@
 		"ls_Cosmos_properties_typeProperties_database": {
 			"type": "string",
 			"defaultValue": "va-prod-vendor-cosmos"
+		},
+		"ls_Cosmos_properties_typeProperties_subscriptionId": {
+			"type": "string",
+			"defaultValue": "7d2cec6f-cf67-4d7f-bd24-33700029bde7"
 		}
 	},
 	"variables": {
 		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
 	},
 	"resources": [
+		{
+			"name": "[concat(parameters('factoryName'), '/ds_Cosmos')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "ls_Cosmos",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "CosmosDbSqlApiCollection",
+				"schema": {},
+				"typeProperties": {
+					"collectionName": "sanctionsRaw"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/ls_Cosmos')]"
+			]
+		},
 		{
 			"name": "[concat(parameters('factoryName'), '/AzureAISearch')]",
 			"type": "Microsoft.DataFactory/factories/linkedServices",
@@ -93,7 +117,10 @@
 				"type": "CosmosDb",
 				"typeProperties": {
 					"accountEndpoint": "[parameters('ls_Cosmos_properties_typeProperties_accountEndpoint')]",
-					"database": "[parameters('ls_Cosmos_properties_typeProperties_database')]"
+					"database": "[parameters('ls_Cosmos_properties_typeProperties_database')]",
+					"subscriptionId": "[parameters('ls_Cosmos_properties_typeProperties_subscriptionId')]",
+					"tenantId": "4aaf5ca5-3a5a-4309-9d27-e97657ce6a17",
+					"resourceGroup": "va-prod-rg-vendor"
 				}
 			},
 			"dependsOn": []
@@ -116,26 +143,6 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/AzureAISearch')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/ds_Cosmos')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "ls_Cosmos",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "CosmosDbSqlApiCollection",
-				"schema": {},
-				"typeProperties": {
-					"collectionName": "sanctionsRaw"
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/ls_Cosmos')]"
 			]
 		},
 		{

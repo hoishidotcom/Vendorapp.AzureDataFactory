@@ -23,6 +23,9 @@
 		"ls_Cosmos_properties_typeProperties_database": {
 			"value": "va-prod-vendor-cosmos"
 		},
+		"ls_Cosmos_properties_typeProperties_subscriptionId": {
+			"value": "7d2cec6f-cf67-4d7f-bd24-33700029bde7"
+		},
 		"containerUri": {
 			"value": ""
 		},

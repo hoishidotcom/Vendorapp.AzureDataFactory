@@ -91,7 +91,7 @@
 				"FilterSanctionSources sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     deletable:false,",
-				"     insertable:true,",
+				"     insertable:false,",
 				"     updateable:false,",
 				"     upsertable:true,",
 				"     format: 'document',",

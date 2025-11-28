@@ -78,7 +78,8 @@
 				"     validateSchema: false,",
 				"     partitionFileNames:['targets.transformed.domains.json'],",
 				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> SinkAzureBlob"
+				"     skipDuplicateMapOutputs: true,",
+				"     partitionBy('hash', 1)) ~> SinkAzureBlob"
 			]
 		}
 	}

@@ -10,7 +10,8 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobStorageLocation",
-				"fileName": "output",
+				"fileName": "targets.transformedWithDomains.json",
+				"folderPath": "output",
 				"container": "scratch"
 			}
 		},

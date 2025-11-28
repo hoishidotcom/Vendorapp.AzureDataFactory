@@ -16,6 +16,12 @@
 		},
 		"OpenSanctionsJSON_properties_typeProperties_url": {
 			"value": "https://data.opensanctions.org/"
+		},
+		"ls_Cosmos_properties_typeProperties_accountEndpoint": {
+			"value": "https://va-prod-vendor-cosno.documents.azure.com:443/"
+		},
+		"ls_Cosmos_properties_typeProperties_database": {
+			"value": "va-prod-vendor-cosmos"
 		}
 	}
 }

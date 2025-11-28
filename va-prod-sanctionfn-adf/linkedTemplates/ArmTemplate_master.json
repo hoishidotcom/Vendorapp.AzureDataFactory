@@ -23,6 +23,14 @@
 			"type": "string",
 			"defaultValue": "https://data.opensanctions.org/"
 		},
+		"ls_Cosmos_properties_typeProperties_accountEndpoint": {
+			"type": "string",
+			"defaultValue": "https://va-prod-vendor-cosno.documents.azure.com:443/"
+		},
+		"ls_Cosmos_properties_typeProperties_database": {
+			"type": "string",
+			"defaultValue": "va-prod-vendor-cosmos"
+		},
 		"containerUri": {
 			"type": "string",
 			"metadata": "URI to storage account containing linked ARM templates"
@@ -61,6 +69,12 @@
 					},
 					"OpenSanctionsJSON_properties_typeProperties_url": {
 						"value": "[parameters('OpenSanctionsJSON_properties_typeProperties_url')]"
+					},
+					"ls_Cosmos_properties_typeProperties_accountEndpoint": {
+						"value": "[parameters('ls_Cosmos_properties_typeProperties_accountEndpoint')]"
+					},
+					"ls_Cosmos_properties_typeProperties_database": {
+						"value": "[parameters('ls_Cosmos_properties_typeProperties_database')]"
 					}
 				}
 			},

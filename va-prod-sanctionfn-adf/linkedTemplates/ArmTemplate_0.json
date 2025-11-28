@@ -933,10 +933,10 @@
 					"sinks": [
 						{
 							"dataset": {
-								"referenceName": "ds_Cosmos",
+								"referenceName": "ds_TransformedJSON_with_domains",
 								"type": "DatasetReference"
 							},
-							"name": "SinkCosmos"
+							"name": "SinkAzureBlob"
 						}
 					],
 					"transformations": [
@@ -994,19 +994,16 @@
 						"|| instr(datasets, 'un_sc_sanctions') > 0) ~> FilterSanctionSources",
 						"FilterSanctionSources sink(allowSchemaDrift: true,",
 						"     validateSchema: false,",
-						"     deletable:false,",
-						"     insertable:true,",
-						"     updateable:false,",
-						"     upsertable:false,",
-						"     format: 'document',",
+						"     partitionFileNames:['targets.transformed.domains.json'],",
 						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true) ~> SinkCosmos"
+						"     skipDuplicateMapOutputs: true,",
+						"     partitionBy('hash', 1)) ~> SinkAzureBlob"
 					]
 				}
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/ds_DownloadedJSON_Blob')]",
-				"[concat(variables('factoryId'), '/datasets/ds_Cosmos')]"
+				"[concat(variables('factoryId'), '/datasets/ds_TransformedJSON_with_domains')]"
 			]
 		},
 		{
@@ -1192,7 +1189,7 @@
 								"parameters": {},
 								"datasetParameters": {
 									"GetSourceJSON": {},
-									"SinkCosmos": {}
+									"SinkAzureBlob": {}
 								}
 							},
 							"staging": {},
@@ -1202,6 +1199,59 @@
 							},
 							"traceLevel": "Fine"
 						}
+					},
+					{
+						"name": "CopyToCosmos",
+						"type": "Copy",
+						"dependsOn": [
+							{
+								"activity": "ProcessData",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "JsonSource",
+								"storeSettings": {
+									"type": "AzureBlobStorageReadSettings",
+									"recursive": true,
+									"enablePartitionDiscovery": false
+								},
+								"formatSettings": {
+									"type": "JsonReadSettings"
+								}
+							},
+							"sink": {
+								"type": "CosmosDbSqlApiSink",
+								"writeBehavior": "upsert",
+								"disableMetricsCollection": false
+							},
+							"enableStaging": false
+						},
+						"inputs": [
+							{
+								"referenceName": "ds_TransformedJSON_with_domains",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "ds_Cosmos",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
 					}
 				],
 				"policy": {
@@ -1212,7 +1262,9 @@
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/ds_DownloadedJSON_HTTP')]",
 				"[concat(variables('factoryId'), '/datasets/ds_DownloadedJSON_Blob')]",
-				"[concat(variables('factoryId'), '/dataflows/NarrowSanctionsKeepDomainColumns')]"
+				"[concat(variables('factoryId'), '/dataflows/NarrowSanctionsKeepDomainColumns')]",
+				"[concat(variables('factoryId'), '/datasets/ds_TransformedJSON_with_domains')]",
+				"[concat(variables('factoryId'), '/datasets/ds_Cosmos')]"
 			]
 		},
 		{
@@ -1298,7 +1350,7 @@
 								"parameters": {},
 								"datasetParameters": {
 									"GetSourceJSON": {},
-									"SinkCosmos": {}
+									"SinkAzureBlob": {}
 								}
 							},
 							"staging": {},

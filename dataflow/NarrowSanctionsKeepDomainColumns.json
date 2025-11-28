@@ -19,6 +19,9 @@
 						"type": "DatasetReference"
 					},
 					"name": "SinkAzureBlob"
+				},
+				{
+					"name": "sink1"
 				}
 			],
 			"transformations": [
@@ -80,7 +83,11 @@
 				"     truncate: true,",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true,",
-				"     partitionBy('hash', 1)) ~> SinkAzureBlob"
+				"     partitionBy('hash', 1)) ~> SinkAzureBlob",
+				"FilterSanctionSources sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> sink1"
 			]
 		}
 	}

@@ -5,7 +5,10 @@
 		"type": "CosmosDb",
 		"typeProperties": {
 			"accountEndpoint": "https://va-prod-vendor-cosno.documents.azure.com:443/",
-			"database": "va-prod-vendor-cosmos"
+			"database": "va-prod-vendor-cosmos",
+			"subscriptionId": "7d2cec6f-cf67-4d7f-bd24-33700029bde7",
+			"tenantId": "4aaf5ca5-3a5a-4309-9d27-e97657ce6a17",
+			"resourceGroup": "va-prod-rg-vendor"
 		}
 	}
 }

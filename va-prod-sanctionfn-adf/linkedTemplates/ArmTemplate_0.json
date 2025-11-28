@@ -995,11 +995,10 @@
 						"FilterSanctionSources sink(allowSchemaDrift: true,",
 						"     validateSchema: false,",
 						"     deletable:false,",
-						"     insertable:false,",
+						"     insertable:true,",
 						"     updateable:false,",
-						"     upsertable:true,",
+						"     upsertable:false,",
 						"     format: 'document',",
-						"     partitionKey: ['/id'],",
 						"     skipDuplicateMapInputs: true,",
 						"     skipDuplicateMapOutputs: true) ~> SinkCosmos"
 					]

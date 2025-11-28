@@ -76,7 +76,7 @@
 				"|| instr(datasets, 'un_sc_sanctions') > 0) ~> FilterSanctionSources",
 				"FilterSanctionSources sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
-				"     partitionFileNames:[''],",
+				"     partitionFileNames:['targets.transformed.domains.json'],",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true) ~> SinkAzureBlob"
 			]

@@ -21,7 +21,11 @@
 					"name": "SinkAzureBlob"
 				},
 				{
-					"name": "sink1"
+					"dataset": {
+						"referenceName": "ds_Cosmos",
+						"type": "DatasetReference"
+					},
+					"name": "SinkCosmos"
 				}
 			],
 			"transformations": [
@@ -86,8 +90,13 @@
 				"     partitionBy('hash', 1)) ~> SinkAzureBlob",
 				"FilterSanctionSources sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     format: 'document',",
 				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> sink1"
+				"     skipDuplicateMapOutputs: true) ~> SinkCosmos"
 			]
 		}
 	}

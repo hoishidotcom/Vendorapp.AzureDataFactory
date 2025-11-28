@@ -106,7 +106,7 @@
 						"userProperties": [],
 						"typeProperties": {
 							"dataflow": {
-								"referenceName": "NarrowSanctionsList",
+								"referenceName": "NarrowSanctionsKeepDomainColumns",
 								"type": "DataFlowReference",
 								"parameters": {},
 								"datasetParameters": {
@@ -121,40 +121,6 @@
 							},
 							"traceLevel": "Fine"
 						}
-					},
-					{
-						"name": "NormalizeDomainsAndWriteToCosmos",
-						"description": "Calls Azure Function NormalizeSanctionDomains to extract/normalize domains and upsert into Cosmos DB.",
-						"type": "AzureFunctionActivity",
-						"state": "Inactive",
-						"onInactiveMarkAs": "Succeeded",
-						"dependsOn": [
-							{
-								"activity": "ProcessData",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"functionName": "NormalizeSanctionDomains",
-							"body": {
-								"value": "@{activity('ProcessData').output}",
-								"type": "Expression"
-							},
-							"headers": {
-								"Content-Type": "application/json"
-							},
-							"method": "POST"
-						}
 					}
 				],
 				"policy": {
@@ -165,7 +131,7 @@
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/ds_DownloadedJSON_HTTP')]",
 				"[concat(variables('factoryId'), '/datasets/ds_DownloadedJSON_Blob')]",
-				"[concat(variables('factoryId'), '/dataflows/NarrowSanctionsList')]"
+				"[concat(variables('factoryId'), '/dataflows/NarrowSanctionsKeepDomainColumns')]"
 			]
 		},
 		{

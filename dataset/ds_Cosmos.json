@@ -1,0 +1,12 @@
+{
+	"name": "ds_Cosmos",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_Cosmos",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "CosmosDbSqlApiCollection",
+		"schema": {}
+	}
+}

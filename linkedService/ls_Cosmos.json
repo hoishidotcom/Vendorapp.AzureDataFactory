@@ -5,7 +5,7 @@
 		"type": "CosmosDb",
 		"typeProperties": {
 			"accountEndpoint": "https://va-prod-vendor-cosno.documents.azure.com:443/",
-			"database": "va-prod-vendor-cosmo"
+			"database": "va-prod-vendor-cosmos"
 		}
 	}
 }

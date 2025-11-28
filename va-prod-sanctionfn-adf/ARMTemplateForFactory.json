@@ -119,7 +119,6 @@
 								"parameters": {},
 								"datasetParameters": {
 									"GetSourceJSON": {},
-									"SinkAzureBlob": {},
 									"SinkCosmos": {}
 								}
 							},
@@ -226,7 +225,6 @@
 								"parameters": {},
 								"datasetParameters": {
 									"GetSourceJSON": {},
-									"SinkAzureBlob": {},
 									"SinkCosmos": {}
 								}
 							},
@@ -269,6 +267,26 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/AzureAISearch')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ds_Cosmos')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "ls_Cosmos",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "CosmosDbSqlApiCollection",
+				"schema": {},
+				"typeProperties": {
+					"collectionName": "sanctionsRaw"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/ls_Cosmos')]"
 			]
 		},
 		{
@@ -1089,6 +1107,20 @@
 			"dependsOn": []
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/ls_Cosmos')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "CosmosDb",
+				"typeProperties": {
+					"accountEndpoint": "[parameters('ls_Cosmos_properties_typeProperties_accountEndpoint')]",
+					"database": "[parameters('ls_Cosmos_properties_typeProperties_database')]"
+				}
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/NarrowSanctionsKeepDomainColumns')]",
 			"type": "Microsoft.DataFactory/factories/dataflows",
 			"apiVersion": "2018-06-01",
@@ -1105,13 +1137,6 @@
 						}
 					],
 					"sinks": [
-						{
-							"dataset": {
-								"referenceName": "ds_TransformedJSON_with_domains",
-								"type": "DatasetReference"
-							},
-							"name": "SinkAzureBlob"
-						},
 						{
 							"dataset": {
 								"referenceName": "ds_Cosmos",
@@ -1175,13 +1200,6 @@
 						"|| instr(datasets, 'un_sc_sanctions') > 0) ~> FilterSanctionSources",
 						"FilterSanctionSources sink(allowSchemaDrift: true,",
 						"     validateSchema: false,",
-						"     partitionFileNames:['targets.transformedWithDomains.json'],",
-						"     truncate: true,",
-						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true,",
-						"     partitionBy('hash', 1)) ~> SinkAzureBlob",
-						"FilterSanctionSources sink(allowSchemaDrift: true,",
-						"     validateSchema: false,",
 						"     deletable:false,",
 						"     insertable:false,",
 						"     updateable:false,",
@@ -1195,7 +1213,6 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/ds_DownloadedJSON_Blob')]",
-				"[concat(variables('factoryId'), '/datasets/ds_TransformedJSON_with_domains')]",
 				"[concat(variables('factoryId'), '/datasets/ds_Cosmos')]"
 			]
 		},
@@ -1297,40 +1314,6 @@
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/ds_DownloadedJSON_Blob')]",
 				"[concat(variables('factoryId'), '/datasets/ds_TransformedJSON')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/ls_Cosmos')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"type": "CosmosDb",
-				"typeProperties": {
-					"accountEndpoint": "[parameters('ls_Cosmos_properties_typeProperties_accountEndpoint')]",
-					"database": "[parameters('ls_Cosmos_properties_typeProperties_database')]"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/ds_Cosmos')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "ls_Cosmos",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "CosmosDbSqlApiCollection",
-				"schema": {},
-				"typeProperties": {
-					"collectionName": "sanctionsRaw"
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/ls_Cosmos')]"
 			]
 		}
 	]

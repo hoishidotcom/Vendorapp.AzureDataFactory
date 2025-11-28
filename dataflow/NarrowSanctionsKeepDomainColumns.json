@@ -15,10 +15,10 @@
 			"sinks": [
 				{
 					"dataset": {
-						"referenceName": "ds_Cosmos",
+						"referenceName": "ds_TransformedJSON_with_domains",
 						"type": "DatasetReference"
 					},
-					"name": "SinkCosmos"
+					"name": "SinkAzureBlob"
 				}
 			],
 			"transformations": [
@@ -76,13 +76,9 @@
 				"|| instr(datasets, 'un_sc_sanctions') > 0) ~> FilterSanctionSources",
 				"FilterSanctionSources sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
-				"     deletable:false,",
-				"     insertable:true,",
-				"     updateable:false,",
-				"     upsertable:false,",
-				"     format: 'document',",
+				"     partitionFileNames:[''],",
 				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> SinkCosmos"
+				"     skipDuplicateMapOutputs: true) ~> SinkAzureBlob"
 			]
 		}
 	}

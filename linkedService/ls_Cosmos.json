@@ -1,0 +1,11 @@
+{
+	"name": "ls_Cosmos",
+	"properties": {
+		"annotations": [],
+		"type": "CosmosDb",
+		"typeProperties": {
+			"accountEndpoint": "https://va-prod-vendor-cosno.documents.azure.com:443/",
+			"database": "va-prod-vendor-cosmo"
+		}
+	}
+}

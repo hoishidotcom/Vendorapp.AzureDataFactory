@@ -1,0 +1,24 @@
+{
+	"name": "Trigger_BuildSanctionDomains_Daily",
+	"properties": {
+		"annotations": [],
+		"runtimeState": "Started",
+		"pipelines": [
+			{
+				"pipelineReference": {
+					"referenceName": "BuildSanctionDomains",
+					"type": "PipelineReference"
+				}
+			}
+		],
+		"type": "ScheduleTrigger",
+		"typeProperties": {
+			"recurrence": {
+				"frequency": "Day",
+				"interval": 1,
+				"startTime": "2025-11-28T00:00:00Z",
+				"timeZone": "UTC"
+			}
+		}
+	}
+}

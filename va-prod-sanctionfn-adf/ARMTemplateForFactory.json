@@ -1111,6 +1111,23 @@
 			"dependsOn": []
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/ls_Cosmos')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "CosmosDb",
+				"typeProperties": {
+					"accountEndpoint": "[parameters('ls_Cosmos_properties_typeProperties_accountEndpoint')]",
+					"database": "[parameters('ls_Cosmos_properties_typeProperties_database')]",
+					"subscriptionId": "[parameters('ls_Cosmos_properties_typeProperties_subscriptionId')]",
+					"tenantId": "4aaf5ca5-3a5a-4309-9d27-e97657ce6a17",
+					"resourceGroup": "va-prod-rg-vendor"
+				}
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/NarrowSanctionsKeepDomainColumns')]",
 			"type": "Microsoft.DataFactory/factories/dataflows",
 			"apiVersion": "2018-06-01",
@@ -1305,23 +1322,6 @@
 				"[concat(variables('factoryId'), '/datasets/ds_DownloadedJSON_Blob')]",
 				"[concat(variables('factoryId'), '/datasets/ds_TransformedJSON')]"
 			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/ls_Cosmos')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"type": "CosmosDb",
-				"typeProperties": {
-					"accountEndpoint": "[parameters('ls_Cosmos_properties_typeProperties_accountEndpoint')]",
-					"database": "[parameters('ls_Cosmos_properties_typeProperties_database')]",
-					"subscriptionId": "[parameters('ls_Cosmos_properties_typeProperties_subscriptionId')]",
-					"tenantId": "4aaf5ca5-3a5a-4309-9d27-e97657ce6a17",
-					"resourceGroup": "va-prod-rg-vendor"
-				}
-			},
-			"dependsOn": []
 		}
 	]
 }
